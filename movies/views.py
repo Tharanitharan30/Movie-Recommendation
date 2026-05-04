@@ -12,6 +12,11 @@ from .serializers import (
     UserSerializer, RegisterSerializer
 )
 from ML.recommend import get_recommendations
+from .tmdb import (
+    fetch_trending, fetch_popular, fetch_movie_details,
+    fetch_credits, fetch_videos, search_movies,
+    fetch_now_playing , fetch_top_rated,fetch_now_playing, fetch_top_rated
+)
 
 
 # ─── AUTH ────────────────────────────────────────────────
@@ -38,32 +43,42 @@ def profile(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def movie_list(request):
-    search = request.GET.get('q', '')
-    if search:
-        movies = Movie.objects.filter(title__icontains=search)[:20]
+    q = request.GET.get('q', '')
+    if q:
+        results = search_movies(q)
     else:
-        movies = Movie.objects.order_by('-popularity')[:20]
-    serializer = MovieSerializer(movies, many=True)
-    return Response(serializer.data)
+        results = fetch_popular()
+    return Response(results)
 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def movie_detail(request, movie_id):
-    try:
-        movie = Movie.objects.get(id=movie_id)
-    except Movie.DoesNotExist:
-        return Response({'error': 'Movie not found'}, status=404)
-    serializer = MovieSerializer(movie)
-    return Response(serializer.data)
+    # Fetch TMDB details + credits + videos
+    details = fetch_movie_details(movie_id)
+    credits = fetch_credits(movie_id)
+    videos = fetch_videos(movie_id)
+    details['cast'] = [c['name'] for c in credits.get('cast', [])[:6]]
+    details['trailer'] = videos[0]['key'] if videos else None
+    return Response(details)
 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def trending(request):
-    movies = Movie.objects.order_by('-popularity')[:10]
-    serializer = MovieSerializer(movies, many=True)
-    return Response(serializer.data)
+    return Response(fetch_trending())
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def now_playing(request):
+    return Response(fetch_now_playing())
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def top_rated(request):
+    return Response(fetch_top_rated())
 
 
 # ─── RECOMMENDATIONS ─────────────────────────────────────
@@ -121,3 +136,32 @@ def my_ratings(request):
         for r in ratings
     ]
     return Response(data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def movie_list(request):
+    q = request.GET.get('q', '')
+    if q:
+        results = search_movies(q)
+    else:
+        results = fetch_popular()
+
+    # ← Fallback to local DB if TMDB returns empty
+    if not results:
+        movies = Movie.objects.order_by('-popularity')[:20]
+        return Response(MovieSerializer(movies, many=True).data)
+
+    return Response(results)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def trending(request):
+    results = fetch_trending()
+
+    # ← Fallback to local DB if TMDB returns empty
+    if not results:
+        movies = Movie.objects.order_by('-popularity')[:10]
+        return Response(MovieSerializer(movies, many=True).data)
+
+    return Response(results)

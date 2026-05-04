@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from 'react'
+import { fetchMovies, fetchTrending, fetchNowPlaying, fetchTopRated } from '../services/api'
 import MovieCard from '../components/MovieCard'
 import SearchBar from '../components/SearchBar'
-import api from '../services/api'
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -12,57 +12,11 @@ export default function HomePage() {
   const [loadingTrending, setLoadingTrending] = useState(true)
 
   useEffect(() => {
-    let active = true
-
-    setLoadingTrending(true)
-    api
-      .get('/movies/trending/')
-      .then(({ data }) => {
-        if (active) {
-          setTrending(data)
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setTrending([])
-        }
-      })
-      .finally(() => {
-        if (active) {
-          setLoadingTrending(false)
-        }
-      })
-
-    return () => {
-      active = false
-    }
+    fetchTrending().then(r => setTrending(r.data)).catch(() => setTrending([])).finally(() => setLoadingTrending(false))
   }, [])
 
   useEffect(() => {
-    let active = true
-
-    setLoadingMovies(true)
-    api
-      .get('/movies/', { params: searchTerm ? { q: searchTerm } : {} })
-      .then(({ data }) => {
-        if (active) {
-          setMovies(data)
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setMovies([])
-        }
-      })
-      .finally(() => {
-        if (active) {
-          setLoadingMovies(false)
-        }
-      })
-
-    return () => {
-      active = false
-    }
+    fetchMovies(searchTerm).then(r => setMovies(r.data)).catch(() => setMovies([])).finally(() => setLoadingMovies(false))
   }, [searchTerm])
 
   return (

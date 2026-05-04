@@ -17,8 +17,10 @@ urlpatterns = [
 
     # Movies
     path('api/movies/',             views.movie_list),
-    path('api/movies/<int:movie_id>/', views.movie_detail),
     path('api/movies/trending/',    views.trending),
+    path('api/movies/now-playing/', views.now_playing),
+    path('api/movies/top-rated/',   views.top_rated),
+    path('api/movies/<int:movie_id>/', views.movie_detail),
 
     # Recommendations
     path('api/recommend/<int:movie_id>/', views.recommend),
@@ -26,4 +28,5 @@ urlpatterns = [
     # Ratings
     path('api/ratings/',            views.rate_movie),
     path('api/ratings/mine/',       views.my_ratings),
+    
 ]
