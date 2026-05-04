@@ -5,7 +5,7 @@ import RatingWidget from '../components/RatingWidget'
 import RecommendationRow from '../components/RecommendationRow'
 import { fetchMovieDetail } from '../services/api'
 
-const TMDB_IMG = import.meta.env.VITE_TMDB_IMG_URL
+const TMDB_IMG = import.meta.env.VITE_TMDB_IMG_URL || 'https://image.tmdb.org/t/p/w500'
 
 function posterUrl(path, title) {
   if (!path) return `https://placehold.co/500x750/0f172a/ffffff?text=${encodeURIComponent(title)}`

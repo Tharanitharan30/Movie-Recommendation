@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const TMDB_THUMB = import.meta.env.VITE_TMDB_IMG_THUMB
+const TMDB_THUMB = import.meta.env.VITE_TMDB_IMG_THUMB || 'https://image.tmdb.org/t/p/w300'
 const FALLBACK = (title) =>
   `https://placehold.co/300x450/1f2937/6366f1?text=${encodeURIComponent(title)}`
 
