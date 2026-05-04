@@ -14,6 +14,7 @@ from pathlib import Path
 import environ
 import dj_database_url
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,8 +30,12 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # ─── Security ─────────────────────────────────────────────
-DEBUG         = env.bool('DEBUG', default=False)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = [
+    'movie-rec-backend-qihv.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 SECRET_KEY    = env('SECRET_KEY')
 
@@ -85,10 +90,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR}/db.sqlite3',
+        conn_max_age=600,
+        ssl_require=False,
+    )
 }
 
 
@@ -136,9 +142,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Allow React frontend to talk to Django
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
-])
+    'https://movie-recommendation-woad-nu.vercel.app/',   # ← replace with your Vercel URL
+]
+
+CORS_ALLOW_ALL_ORIGINS = True 
 
 # TMDB settings
 TMDB_API_KEY  = env('TMDB_API_KEY')
