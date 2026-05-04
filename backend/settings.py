@@ -31,11 +31,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # ─── Security ─────────────────────────────────────────────
 DEBUG = env.bool('DEBUG', default=False)
-ALLOWED_HOSTS = [
-    'movie-rec-backend-qihv.onrender.com',
-    'localhost',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 SECRET_KEY    = env('SECRET_KEY')
 
@@ -144,7 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Allow React frontend to talk to Django
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
-    'https://movie-recommendation-woad-nu.vercel.app/',   # ← replace with your Vercel URL
+    'https://movie-recommendation-woad-nu.vercel.app',   # ← replace with your Vercel URL
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True 
