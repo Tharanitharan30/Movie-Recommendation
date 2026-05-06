@@ -33,7 +33,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
-SECRET_KEY    = env('SECRET_KEY')
+SECRET_KEY    = '@538&acadqcd8tgvagg3^lh83bny3$f0^kbm%vq++ojbjh3^$y'
 
 
 # Application definition
