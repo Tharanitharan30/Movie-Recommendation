@@ -1,54 +1,60 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { Home, User, LogOut, LogIn, UserPlus, Film } from 'lucide-react'
 
 export default function Navbar() {
   const { user, logout } = useAuth()
 
   const linkClass = ({ isActive }) =>
     [
-      'rounded-full px-4 py-2 text-sm font-medium transition',
+      'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300',
       isActive
-        ? 'bg-indigo-500/20 text-indigo-200 ring-1 ring-inset ring-indigo-400/40'
-        : 'text-gray-300 hover:bg-white/5 hover:text-white',
+        ? 'bg-indigo-500/20 text-indigo-300 ring-1 ring-inset ring-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
+        : 'text-slate-300 hover:bg-white/10 hover:text-white',
     ].join(' ')
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/10 bg-gray-950/80 backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <header className="fixed top-4 left-0 right-0 z-50 mx-auto max-w-5xl px-4 sm:px-6">
+      <div className="glass-panel flex w-full items-center justify-between gap-4 rounded-full px-4 py-3 sm:px-6">
         <Link to="/" className="group flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-400 via-cyan-300 to-fuchsia-400 text-sm font-black text-gray-950 shadow-lg shadow-indigo-900/40">
-            MR
-          </span>
-          <div>
-            <div className="text-base font-semibold tracking-wide text-white">Movie Radar</div>
-            <div className="text-xs text-gray-400 group-hover:text-gray-300">Discover smarter picks</div>
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-cyan-500 shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:shadow-indigo-500/50">
+            <Film className="h-5 w-5 text-white" />
+            <div className="absolute inset-0 rounded-full bg-white opacity-0 transition-opacity duration-300 group-hover:opacity-20"></div>
+          </div>
+          <div className="hidden sm:block">
+            <div className="text-gradient text-lg font-bold tracking-tight">Movie Radar</div>
           </div>
         </Link>
 
         <nav className="flex items-center gap-2 sm:gap-3">
           <NavLink to="/" className={linkClass} end>
-            Home
+            <Home className="h-4 w-4" />
+            <span className="hidden sm:inline">Home</span>
           </NavLink>
           {user ? (
             <>
               <NavLink to="/profile" className={linkClass}>
-                {user.username}
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">{user.username}</span>
               </NavLink>
               <button
                 type="button"
                 onClick={logout}
-                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:border-indigo-400/40 hover:bg-indigo-500/10"
+                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:border-fuchsia-400/50 hover:bg-fuchsia-500/10 hover:text-fuchsia-300 hover:shadow-[0_0_15px_rgba(217,70,239,0.2)]"
               >
-                Logout
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Logout</span>
               </button>
             </>
           ) : (
             <>
               <NavLink to="/login" className={linkClass}>
-                Login
+                <LogIn className="h-4 w-4" />
+                <span className="hidden sm:inline">Login</span>
               </NavLink>
               <NavLink to="/register" className={linkClass}>
-                Register
+                <UserPlus className="h-4 w-4" />
+                <span className="hidden sm:inline">Register</span>
               </NavLink>
             </>
           )}
