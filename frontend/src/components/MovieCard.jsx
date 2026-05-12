@@ -12,31 +12,29 @@ export default function MovieCard({ movie }) {
 
   return (
     <Link to={`/movies/${movie.id}`} className="group relative block w-full outline-none">
-      <div className="glass-card relative overflow-hidden rounded-[1.5rem] transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.3)] group-focus-visible:ring-2 group-focus-visible:ring-indigo-400 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-slate-950">
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-slate-500 group-focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:group-focus-visible:ring-slate-300 dark:group-focus-visible:ring-offset-slate-950">
         <div className="aspect-[2/3] w-full overflow-hidden">
           <img
             src={poster}
             alt={movie.title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             onError={(e) => { e.currentTarget.src = FALLBACK(movie.title) }}
           />
         </div>
-        
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90"></div>
-        
-        <div className="absolute bottom-0 left-0 right-0 p-5 transition-transform duration-500 translate-y-2 group-hover:translate-y-0">
-          <h3 className="text-lg font-bold leading-tight text-white drop-shadow-md line-clamp-2">{movie.title}</h3>
-          
-          <div className="mt-2 flex items-center gap-2">
-            <span className="flex items-center gap-1 rounded-full bg-slate-900/60 backdrop-blur-md px-2 py-1 text-xs font-semibold text-yellow-400 ring-1 ring-inset ring-yellow-400/20">
-              <Star className="h-3 w-3 fill-yellow-400" />
+
+        <div className="space-y-3 p-4">
+          <h3 className="line-clamp-2 text-base font-bold leading-tight text-slate-900 dark:text-slate-100">{movie.title}</h3>
+
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">
+              <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
               {Number(movie.vote_average || 0).toFixed(1)}
             </span>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-2 opacity-0 transition-opacity duration-500 delay-100 group-hover:opacity-100">
+          <div className="flex flex-wrap gap-2">
             {(movie.genres || []).slice(0, 2).map((g, i) => (
-              <span key={i} className="rounded-full bg-indigo-500/20 px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-indigo-200 ring-1 ring-inset ring-indigo-400/30 backdrop-blur-sm uppercase">
+              <span key={i} className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
                 {g.name || g}
               </span>
             ))}

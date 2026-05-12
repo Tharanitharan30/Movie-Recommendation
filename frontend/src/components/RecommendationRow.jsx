@@ -27,18 +27,18 @@ export default function RecommendationRow({ movieId }) {
     <section className="space-y-4">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-semibold text-white">Recommended for you</h2>
-          <p className="mt-1 text-sm text-gray-400">Suggestions from TMDB and our recommendation engine.</p>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Recommended for you</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Suggestions from TMDB and our recommendation engine.</p>
         </div>
       </div>
 
       {loading ? (
-        <div className="rounded-3xl border border-white/10 bg-gray-900/80 p-6 text-sm text-gray-400">Loading recommendations...</div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">Loading recommendations...</div>
       ) : (
         <>
           {tmdbSimilar.length ? (
             <div>
-              <h3 className="text-lg text-gray-300">Similar (TMDB)</h3>
+              <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200">Similar (TMDB)</h3>
               <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4 mt-3">
                 {tmdbSimilar.map((m) => <MovieCard key={m.id} movie={m} />)}
               </div>
@@ -47,7 +47,7 @@ export default function RecommendationRow({ movieId }) {
 
           {mlBased.length ? (
             <div className="mt-6">
-              <h3 className="text-lg text-gray-300">Content-based (ML)</h3>
+              <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200">Content-based (ML)</h3>
               <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4 mt-3">
                 {mlBased.map((m) => <MovieCard key={m.id} movie={m} />)}
               </div>
@@ -55,7 +55,7 @@ export default function RecommendationRow({ movieId }) {
           ) : null}
 
           {!tmdbSimilar.length && !mlBased.length && (
-            <div className="rounded-3xl border border-white/10 bg-gray-900/80 p-6 text-sm text-gray-400">No recommendations available right now.</div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">No recommendations available right now.</div>
           )}
         </>
       )}
