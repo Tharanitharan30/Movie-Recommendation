@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { fetchMovies, fetchTrending } from '../services/api'
 import MovieCard from '../components/MovieCard'
 import SearchBar from '../components/SearchBar'
+import { MovieGridSkeleton } from '../components/Skeletons'
 import { Sparkles, TrendingUp, Film } from 'lucide-react'
 
 export default function HomePage() {
@@ -53,10 +54,7 @@ export default function HomePage() {
         </div>
 
         {loadingTrending ? (
-          <div className="surface-card p-8 text-center text-slate-500 dark:text-slate-300">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-slate-400 border-r-transparent align-[-0.125em] dark:border-slate-300"></div>
-            <p className="mt-4 font-medium">Loading trending movies...</p>
-          </div>
+          <MovieGridSkeleton count={5} />
         ) : trending.length ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {trending.map((movie) => (
@@ -84,10 +82,7 @@ export default function HomePage() {
         </div>
 
         {loadingMovies ? (
-          <div className="surface-card p-8 text-center text-slate-500 dark:text-slate-300">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-slate-400 border-r-transparent align-[-0.125em] dark:border-slate-300"></div>
-            <p className="mt-4 font-medium">Loading movies...</p>
-          </div>
+          <MovieGridSkeleton count={8} />
         ) : movies.length ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {movies.map((movie) => (

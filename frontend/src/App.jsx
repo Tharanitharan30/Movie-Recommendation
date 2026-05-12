@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import ScrollToTop from './components/ScrollToTop'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
@@ -69,6 +70,7 @@ export default function App() {
     <AuthProvider>
       <div className={theme === 'dark' ? 'dark' : ''}>
         <div className="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+          <ScrollToTop />
           <Navbar theme={theme} onToggleTheme={toggleTheme} />
           <main className="mx-auto w-full max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
             <Routes>

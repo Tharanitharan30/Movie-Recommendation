@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import RatingWidget from '../components/RatingWidget'
 import RecommendationRow from '../components/RecommendationRow'
+import { DetailPageSkeleton } from '../components/Skeletons'
 import { fetchMovieDetail } from '../services/api'
 import { Star, Clock, Calendar, ArrowLeft, PlayCircle } from 'lucide-react'
 
@@ -35,11 +36,9 @@ export default function MovieDetailPage() {
   }, [id])
 
   if (loading) return (
-    <div className="flex min-h-[50vh] items-center justify-center">
-      <div className="flex flex-col items-center gap-4 text-slate-600 dark:text-slate-300">
-        <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-current border-r-transparent"></div>
-        <p className="font-medium">Loading movie details...</p>
-      </div>
+    <div className="space-y-6 pt-8">
+      <div className="h-6 w-40 animate-pulse rounded bg-slate-200 dark:bg-slate-800"></div>
+      <DetailPageSkeleton />
     </div>
   )
   

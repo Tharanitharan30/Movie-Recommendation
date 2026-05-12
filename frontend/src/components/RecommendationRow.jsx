@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { fetchRecommend } from '../services/api'
 import MovieCard from './MovieCard'
+import { MovieGridSkeleton } from './Skeletons'
 
 export default function RecommendationRow({ movieId }) {
   const [tmdbSimilar, setTmdbSimilar] = useState([])
@@ -33,7 +34,7 @@ export default function RecommendationRow({ movieId }) {
       </div>
 
       {loading ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">Loading recommendations...</div>
+        <MovieGridSkeleton count={4} />
       ) : (
         <>
           {tmdbSimilar.length ? (

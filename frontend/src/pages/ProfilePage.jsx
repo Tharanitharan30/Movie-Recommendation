@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from 'react'
 import MovieCard from '../components/MovieCard'
+import { MovieGridSkeleton } from '../components/Skeletons'
 import { useAuth } from '../context/AuthContext'
 import api from '../services/api'
 import { User, Mail, Star, Film } from 'lucide-react'
@@ -75,10 +76,7 @@ export default function ProfilePage() {
         </div>
 
         {loading ? (
-          <div className="surface-card p-12 text-center text-slate-500 dark:text-slate-300">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-slate-400 border-r-transparent align-[-0.125em] dark:border-slate-300"></div>
-            <p className="mt-4 font-medium">Loading your movie history...</p>
-          </div>
+          <MovieGridSkeleton count={4} />
         ) : ratings.length ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {ratings.map((rating) => (
